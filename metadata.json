@@ -1,0 +1,6 @@
+{
+  "name": "EchoGuide: AI Voice City Tour",
+  "description": "Real-time GPS voice-guided city tour guide with marker clustering, nearby landmark detection, and contextual AI audio narration.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

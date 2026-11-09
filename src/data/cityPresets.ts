@@ -1,0 +1,386 @@
+import { CityPreset } from '../types/tour';
+
+export const CITY_PRESETS: CityPreset[] = [
+  {
+    id: 'rome',
+    name: 'Rome',
+    country: 'Italy',
+    tagline: 'Imperial grandeur, baroque piazzas & 2,700 years of living history',
+    center: { lat: 41.8902, lng: 12.4922 },
+    zoom: 15,
+    walkingRoute: [
+      { lat: 41.8902, lng: 12.4922 }, // Colosseum
+      { lat: 41.8915, lng: 12.4895 }, // Arch of Constantine / Via Sacra
+      { lat: 41.8925, lng: 12.4853 }, // Roman Forum
+      { lat: 41.8947, lng: 12.4839 }, // Capitoline Hill
+      { lat: 41.8962, lng: 12.4815 }, // Largo di Torre Argentina
+      { lat: 41.8986, lng: 12.4769 }, // The Pantheon
+      { lat: 41.8992, lng: 12.4731 }, // Piazza Navona
+      { lat: 41.9009, lng: 12.4833 }, // Trevi Fountain
+      { lat: 41.9060, lng: 12.4828 }, // Spanish Steps
+      { lat: 41.9031, lng: 12.4663 }, // Castel Sant'Angelo
+    ],
+    landmarks: [
+      {
+        id: 'colosseum',
+        name: 'The Colosseum (Flavian Amphitheatre)',
+        category: 'monument',
+        lat: 41.8902,
+        lng: 12.4922,
+        historicalEra: '70–80 AD (Flavian Dynasty)',
+        shortDescription: 'The largest amphitheatre ever built, host to epic gladiatorial spectacles and naval battles.',
+        funFact: 'Romans could flood the entire arena floor in under two hours to stage mock sea battles called naumachiae.',
+        insiderTip: 'Look closely at the outer travertine facade to see thousands of pockmarks where medieval scavengers dug out bronze clamps.',
+        suggestedLookAt: 'The subterranean hypogeum network visible through the exposed arena floor.',
+        activityNow: 'Living history performers and gladiatorial reenactors demonstrating Roman armor along Via dei Fori Imperiali.',
+      },
+      {
+        id: 'roman-forum',
+        name: 'The Roman Forum (Forum Romanum)',
+        category: 'monument',
+        lat: 41.8925,
+        lng: 12.4853,
+        historicalEra: '6th Century BC – 4th Century AD',
+        shortDescription: 'The pulsing political, commercial, and judicial heart of ancient Roman civilization.',
+        funFact: 'Julius Caesar was cremated right here on March 18, 44 BC; fresh flowers are still placed on his altar daily.',
+        insiderTip: 'Stand near the Temple of Saturn at sunset for golden reflections gleaming across the remaining Corinthian columns.',
+        suggestedLookAt: 'The triple triumphal arch of Septimius Severus standing proud after 1,800 years.',
+        activityNow: 'Archaeologists conducting live stratigraphy excavations at the Basilica Julia.',
+      },
+      {
+        id: 'pantheon',
+        name: 'The Pantheon',
+        category: 'architecture',
+        lat: 41.8986,
+        lng: 12.4769,
+        historicalEra: '126 AD (Emperor Hadrian)',
+        shortDescription: 'A marvel of Roman engineering featuring the worlds largest unreinforced concrete dome.',
+        funFact: 'The central oculus (eye) is completely open to the sky; rainwater drains through 22 discreet holes in the marble floor.',
+        insiderTip: 'Visit around midday to watch a concentrated cylinder of sunlight sweep across the Renaissance tombs.',
+        suggestedLookAt: 'The bronze coffered dome ceiling, which diminishes in thickness as it rises toward the sky.',
+        activityNow: 'Piazza della Rotonda busker quartet playing classic Ennio Morricone film scores.',
+      },
+      {
+        id: 'piazza-navona',
+        name: 'Piazza Navona & Fountain of the Four Rivers',
+        category: 'monument',
+        lat: 41.8992,
+        lng: 12.4731,
+        historicalEra: '86 AD (Stadium of Domitian) / 1651 (Bernini)',
+        shortDescription: 'A dramatic baroque square built directly over Emperor Domitians ancient athletics stadium.',
+        funFact: 'Bernini sculpted the River Plate figure with a raised hand, playfully rumored to be shielding itself from rival Borrominis church facade collapsing.',
+        insiderTip: 'Tuck into the northern corner toward Via dei Coronari for the most authentic roasted Roman espresso.',
+        suggestedLookAt: 'The Egyptian obelisk soaring 16 meters above Berninis travertine sea monsters.',
+        activityNow: 'Open-air portrait sketch artists and caricature painters lining the piazza.',
+      },
+      {
+        id: 'trevi-fountain',
+        name: 'Trevi Fountain (Fontana di Trevi)',
+        category: 'monument',
+        lat: 41.9009,
+        lng: 12.4833,
+        historicalEra: '1762 (Nicola Salvi)',
+        shortDescription: 'The most spectacular Baroque fountain in the world, fed by the ancient Acqua Vergine aqueduct.',
+        funFact: 'Over €3,000 in coins are tossed into the water every single day, all collected and donated to local food charities.',
+        insiderTip: 'To ensure your return to Rome, toss your coin with your right hand over your left shoulder with your eyes closed.',
+        suggestedLookAt: 'Oceanus riding his seashell chariot pulled by one calm sea horse and one wild stallion.',
+        activityNow: 'Evening illumination lights just turning on, casting aquamarine ripples onto Palazzo Poli.',
+      },
+      {
+        id: 'castel-sant-angelo',
+        name: "Castel Sant'Angelo & Bridge of Angels",
+        category: 'museum',
+        lat: 41.9031,
+        lng: 12.4663,
+        historicalEra: '139 AD (Hadrians Mausoleum) / Papal Fortress',
+        shortDescription: 'A colossal cylindrical fortress guarding the Tiber River, connected to the Vatican by a secret corridor.',
+        funFact: 'The secret elevated brick corridor (Passetto di Borgo) saved Pope Clement VII during the brutal 1527 Sack of Rome.',
+        insiderTip: 'Walk across the bridge slowly to admire Berninis 10 angels, each bearing an instrument of the Passion.',
+        suggestedLookAt: 'The bronze Archangel Michael sheathing his sword atop the castle terrace.',
+        activityNow: 'Riverside acoustic guitarists performing under the illuminated marble arches.',
+      },
+    ],
+  },
+  {
+    id: 'paris',
+    name: 'Paris',
+    country: 'France',
+    tagline: 'Gothic spires, historic bridges, intellectual cafes & riverside romance',
+    center: { lat: 48.853, lng: 2.3499 },
+    zoom: 15,
+    walkingRoute: [
+      { lat: 48.853, lng: 2.3499 }, // Notre-Dame
+      { lat: 48.8526, lng: 2.3472 }, // Shakespeare and Company
+      { lat: 48.8554, lng: 2.345 }, // Sainte-Chapelle & Conciergerie
+      { lat: 48.8566, lng: 2.3418 }, // Pont Neuf & Square du Vert-Galant
+      { lat: 48.8606, lng: 2.3376 }, // Louvre Pyramid Courtyard
+      { lat: 48.8519, lng: 2.3386 }, // Boulevard Saint-Germain
+      { lat: 48.8462, lng: 2.3444 }, // Panthéon & Sorbonne
+    ],
+    landmarks: [
+      {
+        id: 'notre-dame',
+        name: 'Cathédrale Notre-Dame de Paris',
+        category: 'architecture',
+        lat: 48.853,
+        lng: 2.3499,
+        historicalEra: '1163–1345 (French Gothic)',
+        shortDescription: 'The majestic crown of Île de la Cité, celebrated for its twin stone towers and legendary rose windows.',
+        funFact: 'Point Zéro des Routes de France is embedded in the stone square in front, from which all highway distances in France are measured.',
+        insiderTip: 'Step to the southern parvis to admire the soaring flying buttresses that pioneered Gothic architectural daring.',
+        suggestedLookAt: 'The West Rose Window depicting human virtues and vices surrounding the Virgin Mary.',
+        activityNow: 'Master bell ringers chiming the historic Bourdon Emmanuel bell across the Seine.',
+      },
+      {
+        id: 'sainte-chapelle',
+        name: 'Sainte-Chapelle',
+        category: 'architecture',
+        lat: 48.8554,
+        lng: 2.345,
+        historicalEra: '1248 (King Louis IX)',
+        shortDescription: 'A Gothic jewel box built to house the Crown of Thorns, containing 1,113 stained glass panels.',
+        funFact: 'Over 75% of the stained glass is 13th-century original glass that survived both the French Revolution and World Wars.',
+        insiderTip: 'The lower chapel is intimate, but the upper sanctuary will take your breath away with its soaring purple and ruby light.',
+        suggestedLookAt: 'The intricate rose window illustrating the Book of Revelation in fiery medieval crystal.',
+        activityNow: 'Classical string quartet tuning instruments for the evening candlelight Vivaldi concert.',
+      },
+      {
+        id: 'shakespeare-co',
+        name: 'Shakespeare and Company Bookstore',
+        category: 'market',
+        lat: 48.8526,
+        lng: 2.3472,
+        historicalEra: '1951 (George Whitman) / Lost Generation',
+        shortDescription: 'The bohemian literary sanctuary where Hemingway, Joyce, and Beat Generation poets found shelter.',
+        funFact: 'Over 30,000 wandering writers and aspiring poets (called "Tumbleweeds") have slept for free on its bookish cots.',
+        insiderTip: 'Head upstairs to find the vintage typewriter room where travelers type spontaneous letters to strangers.',
+        suggestedLookAt: 'The inscription above the inner doorway: "Be not inhospitable to strangers, lest they be angels in disguise."',
+        activityNow: 'Literary tea gathering and poetry reading in the courtyard underneath the weeping willow.',
+      },
+      {
+        id: 'pont-neuf',
+        name: 'Pont Neuf & Square du Vert-Galant',
+        category: 'monument',
+        lat: 48.8566,
+        lng: 2.3418,
+        historicalEra: '1607 (King Henri IV)',
+        shortDescription: 'Paradoxically named "New Bridge", this is the oldest standing stone bridge spanning the River Seine in Paris.',
+        funFact: 'It was the very first Parisian bridge built without houses on top and the first to include dedicated pedestrian sidewalks.',
+        insiderTip: 'Walk down the stone steps at the tip of the island to sit beneath the willows where lovers watch riverboats glide past.',
+        suggestedLookAt: 'The 381 stone grotesque masks (mascarons) lining the outer cornice, each with a unique humorous grimace.',
+        activityNow: 'Bateaux-Mouches tour boats sounding their horns as they clear the central stone arch.',
+      },
+      {
+        id: 'louvre-courtyard',
+        name: 'Louvre Courtyard & Glass Pyramid',
+        category: 'museum',
+        lat: 48.8606,
+        lng: 2.3376,
+        historicalEra: '1190 Fortress / 1989 I.M. Pei Pyramid',
+        shortDescription: 'A breathtaking dialogue between medieval royal palaces and I.M. Peis iconic modernist glass pyramid.',
+        funFact: 'Urban legends claim the pyramid has 666 panes of glass, but the Louvre museum officially confirms it consists of 673.',
+        insiderTip: 'Stand centered between the reflecting pools at twilight when the illuminated pyramid mirrors against the Renaissance wings.',
+        suggestedLookAt: 'The subterranean inverted pyramid visible through the skylight in the Carrousel arcade below.',
+        activityNow: 'Street cellist performing Bach suites beneath the stone arches of the Richelieu wing.',
+      },
+    ],
+  },
+  {
+    id: 'kyoto',
+    name: 'Kyoto',
+    country: 'Japan',
+    tagline: 'Zen stone gardens, cedar temples, tea culture & historic geisha districts',
+    center: { lat: 34.9949, lng: 135.785 },
+    zoom: 15,
+    walkingRoute: [
+      { lat: 34.9949, lng: 135.785 }, // Kiyomizu-dera
+      { lat: 34.9975, lng: 135.7812 }, // Sannenzaka slope
+      { lat: 34.9991, lng: 135.7797 }, // Ninenzaka slope
+      { lat: 35.0003, lng: 135.7788 }, // Yasaka Pagoda (Hokan-ji)
+      { lat: 35.0022, lng: 135.7744 }, // Kennin-ji Zen Temple
+      { lat: 35.0037, lng: 135.7772 }, // Yasaka Shrine
+      { lat: 35.0053, lng: 135.7731 }, // Gion Shirakawa Canal
+    ],
+    landmarks: [
+      {
+        id: 'kiyomizu-dera',
+        name: 'Kiyomizu-dera (Pure Water Temple)',
+        category: 'monument',
+        lat: 34.9949,
+        lng: 135.785,
+        historicalEra: '778 AD (Early Heian Period)',
+        shortDescription: 'Perched on Mount Otowa, famous for its massive wooden stage built entirely without a single nail.',
+        funFact: 'The Japanese idiom "to jump off the stage of Kiyomizu" is the cultural equivalent of taking a daring leap of faith.',
+        insiderTip: 'Drink from the Otowa Waterfall at the temple base; three separate streams bestow health, longevity, and success.',
+        suggestedLookAt: 'The interlocking Keyaki zelkova wood pillars that have supported the stage through centuries of earthquakes.',
+        activityNow: 'Monks chanting the Heart Sutra as incense billows from the main bronze burner.',
+      },
+      {
+        id: 'yasaka-pagoda',
+        name: 'Hokan-ji Temple (Yasaka Pagoda)',
+        category: 'architecture',
+        lat: 35.0003,
+        lng: 135.7788,
+        historicalEra: '592 AD (Prince Shotoku)',
+        shortDescription: 'The defining silhouette of old Higashiyama, a 46-meter tall five-story pagoda framed by traditional machiya townhouses.',
+        funFact: 'Visitors can climb the narrow interior wooden stairs into the second story, an ultra-rare privilege for historic Japanese pagodas.',
+        insiderTip: 'Looking uphill from the base of Yasaka-dori Street offers the single most iconic photograph in Kyoto.',
+        suggestedLookAt: 'The massive central cypress heart-pillar (shinbashira) that sways independently to absorb seismic shocks.',
+        activityNow: 'Rickshaw runners in traditional happi coats gliding through the cobbled alleys.',
+      },
+      {
+        id: 'gion-shirakawa',
+        name: 'Gion Shirakawa Historic Canal',
+        category: 'viewpoint',
+        lat: 35.0053,
+        lng: 135.7731,
+        historicalEra: 'Edo Period (1603–1867)',
+        shortDescription: 'A poetic stone-paved canal bordered by weeping willows, wooden ochaya teahouses, and cherry blossoms.',
+        funFact: 'The small stone Tatsumi Bridge is dedicated to the guardian deity of arts, where geiko and maiko pray for musical perfection.',
+        insiderTip: 'Walk here quietly at dusk as traditional bamboo lanterns flicker to life along the paper shoji windows.',
+        suggestedLookAt: 'The reflection of paper andon lanterns shimmering in the clear mountain spring water.',
+        activityNow: 'A shamisen player practicing traditional melodies behind the wooden lattice screens.',
+      },
+      {
+        id: 'yasaka-shrine',
+        name: 'Yasaka Shrine (Gion-san)',
+        category: 'monument',
+        lat: 35.0037,
+        lng: 135.7772,
+        historicalEra: '656 AD (Asuka Period)',
+        shortDescription: 'The spirited Shinto shrine safeguarding Kyoto from epidemics, home of the legendary month-long Gion Matsuri.',
+        funFact: 'The inner dance stage features hundreds of white lanterns, each inscribed with the name of a local Kyoto merchant.',
+        insiderTip: 'Visit the small Utsukushigozen-sha sub-shrine on the grounds; splash its sacred beauty water on your face for radiant skin.',
+        suggestedLookAt: 'The vermilion two-story Ro-mon entrance gate facing directly west down Shijo Avenue.',
+        activityNow: 'Evening blessings ceremony with Shinto priests ringing sacred suzu bells.',
+      },
+    ],
+  },
+  {
+    id: 'nyc',
+    name: 'New York City',
+    country: 'USA',
+    tagline: 'Historic Manhattan, Wall Street lore, harbor breezes & towering ambition',
+    center: { lat: 40.7061, lng: -74.0092 },
+    zoom: 15,
+    walkingRoute: [
+      { lat: 40.7033, lng: -74.0157 }, // Battery Park
+      { lat: 40.7056, lng: -74.0134 }, // Bowling Green & Charging Bull
+      { lat: 40.7075, lng: -74.0113 }, // Trinity Church
+      { lat: 40.7073, lng: -74.0101 }, // Federal Hall & Wall St
+      { lat: 40.7042, lng: -74.0104 }, // Stone Street
+      { lat: 40.7118, lng: -74.0131 }, // 9/11 Memorial
+    ],
+    landmarks: [
+      {
+        id: 'charging-bull',
+        name: 'Bowling Green & The Charging Bull',
+        category: 'monument',
+        lat: 40.7056,
+        lng: -74.0134,
+        historicalEra: '1989 (Arturo Di Modica) / 1733 Bowling Green',
+        shortDescription: 'The world-famous 7,100-pound bronze beast symbolizing financial resilience and unstoppable optimism.',
+        funFact: 'The artist dropped the sculpture illegally in the dead of night outside the Stock Exchange as a Christmas gift to New Yorkers.',
+        insiderTip: 'Look at the teardrop-shaped park: Bowling Green is the oldest public park in NYC, where citizens tore down King George IIIs statue in 1776.',
+        suggestedLookAt: 'The muscular tension in the bronze beasts arched spine and flaring nostrils.',
+        activityNow: 'Street brass jazz band playing Duke Ellington classics near the subway entrance.',
+      },
+      {
+        id: 'trinity-church',
+        name: 'Trinity Church Wall Street',
+        category: 'architecture',
+        lat: 40.7075,
+        lng: -74.0113,
+        historicalEra: '1846 (Richard Upjohn - Gothic Revival)',
+        shortDescription: 'Once the tallest structure in the United States, keeping watch over Alexander Hamiltons final resting place.',
+        funFact: 'Its 281-foot spire served as a welcome beacon for ships sailing into New York Harbor for half a century.',
+        insiderTip: 'Enter the shaded churchyard to pay homage at Alexander and Eliza Hamiltons marble pyramid monument.',
+        suggestedLookAt: 'The monumental bronze entry doors designed by Richard Morris Hunt depicting biblical scenes.',
+        activityNow: 'The 23-bell church carillon chiming hymns across the Wall Street canyon.',
+      },
+      {
+        id: 'federal-hall',
+        name: 'Federal Hall National Memorial',
+        category: 'monument',
+        lat: 40.7073,
+        lng: -74.0101,
+        historicalEra: '1703 / 1842 Greek Revival',
+        shortDescription: 'Birthplace of American government: where George Washington took the first oath of presidential office in 1789.',
+        funFact: 'The Bill of Rights was drafted and passed by the First United States Congress on this very piece of ground.',
+        insiderTip: 'Stand directly beneath the colossal bronze statue of Washington on the front steps to see where he held his inaugural bible.',
+        suggestedLookAt: 'The Greek Doric marble portico inspired by the Parthenon in Athens.',
+        activityNow: 'Financial district walking tour group listening to colonial founding stories.',
+      },
+      {
+        id: 'stone-street',
+        name: 'Historic Stone Street',
+        category: 'market',
+        lat: 40.7042,
+        lng: -74.0104,
+        historicalEra: '1658 (New Amsterdam Dutch Colony)',
+        shortDescription: 'The very first street paved with cobblestones in New York, lined with restored 19th-century brick taverns.',
+        funFact: 'In 1658, Dutch residents grew tired of muddy lanes and funded the cobblestone paving out of their own guild pockets.',
+        insiderTip: 'Grab an outdoor wooden picnic bench in summer for craft cider and wood-fired pizza under hanging fairy lights.',
+        suggestedLookAt: 'The gas-lamp style iron lanterns and original Dutch-style stepped brick gables.',
+        activityNow: 'Outdoor dining buzz with clinking glasses and lively conversations under festive canopies.',
+      },
+    ],
+  },
+  {
+    id: 'london',
+    name: 'London',
+    country: 'United Kingdom',
+    tagline: 'Royal palaces, Gothic parliaments, the River Thames & Shakespearean echoes',
+    center: { lat: 51.5007, lng: -0.1246 },
+    zoom: 15,
+    walkingRoute: [
+      { lat: 51.5007, lng: -0.1246 }, // Big Ben & Parliament
+      { lat: 51.4994, lng: -0.1273 }, // Westminster Abbey
+      { lat: 51.5022, lng: -0.1287 }, // Churchill War Rooms
+      { lat: 51.5033, lng: -0.1195 }, // London Eye
+      { lat: 51.5081, lng: -0.1281 }, // Trafalgar Square
+      { lat: 51.5014, lng: -0.1419 }, // Buckingham Palace
+    ],
+    landmarks: [
+      {
+        id: 'big-ben',
+        name: 'Elizabeth Tower (Big Ben) & Palace of Westminster',
+        category: 'monument',
+        lat: 51.5007,
+        lng: -0.1246,
+        historicalEra: '1859 (Charles Barry & Augustus Pugin)',
+        shortDescription: 'The iconic clock tower and Victorian Gothic parliament standing majestically over Westminster Bridge.',
+        funFact: 'Technically "Big Ben" is only the nickname of the colossal 13.7-tonne Great Bell inside, not the tower itself!',
+        insiderTip: 'Cross Westminster Bridge halfway toward the south bank for the timeless post-card reflection across the Thames.',
+        suggestedLookAt: 'The intricate gold leaf gilded dials, featuring 312 separate pieces of opal glass in each clock face.',
+        activityNow: 'The iconic Westminster Chimes sounding on the quarter-hour.',
+      },
+      {
+        id: 'westminster-abbey',
+        name: 'Westminster Abbey (Collegiate Church of St Peter)',
+        category: 'architecture',
+        lat: 51.4994,
+        lng: -0.1273,
+        historicalEra: '1245 (King Henry III - Gothic)',
+        shortDescription: 'The coronation church of British monarchs since William the Conqueror in 1066, and burial place of royalty and poets.',
+        funFact: 'Poets Corner in the South Transept holds the memorials of Geoffrey Chaucer, William Shakespeare, Jane Austen, and Charles Dickens.',
+        insiderTip: 'Notice the Coronation Chair made of Baltic oak in 1296, carved with graffiti by 18th-century schoolboys.',
+        suggestedLookAt: 'The soaring fan-vaulted ceiling of the Henry VII Lady Chapel, a masterwork of late medieval stonework.',
+        activityNow: 'Choral Evensong service choir warming up with sacred Renaissance polyphony.',
+      },
+      {
+        id: 'london-eye',
+        name: 'The London Eye (Millennium Wheel)',
+        category: 'viewpoint',
+        lat: 51.5033,
+        lng: -0.1195,
+        historicalEra: '2000 (Millennium Landmark)',
+        shortDescription: 'A 135-meter-tall cantilevered observation wheel offering sweeping 360-degree vistas across all of London.',
+        funFact: 'There are 32 capsules representing the 32 London boroughs, but they are numbered 1 to 33, omitting unlucky number 13.',
+        insiderTip: 'On a crystal clear afternoon, visibility stretches up to 40 kilometers all the way to Windsor Castle.',
+        suggestedLookAt: 'The massive steel A-frame cables anchored securely into the riverbed like a colossal bicycle wheel.',
+        activityNow: 'Street acoustic violinists performing near Jubilee Gardens lawn.',
+      },
+    ],
+  },
+];
