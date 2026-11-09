@@ -45,6 +45,7 @@ export interface Landmark {
   audioNarration?: string;
   address?: string;
   visited?: boolean;
+  images?: string[];
 }
 
 export interface CityPreset {

@@ -35,7 +35,8 @@ const MapViewController: React.FC<{
   useEffect(() => {
     if (!map) return;
     map.panTo({ lat: userLocation.lat, lng: userLocation.lng });
-  }, [map, recenterTrigger]);
+    map.setZoom(15);
+  }, [map, recenterTrigger, userLocation.lat, userLocation.lng]);
 
   return null;
 };

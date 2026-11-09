@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ActiveNarration, GuidePersona } from '../types/tour';
 import {
   Play,
@@ -14,6 +14,7 @@ import {
   Volume2,
   VolumeX,
   Compass,
+  Loader2,
 } from 'lucide-react';
 
 interface NarrationDockProps {
@@ -44,6 +45,50 @@ export const NarrationDock: React.FC<NarrationDockProps> = ({
   onPersonaChange,
 }) => {
   const [expanded, setExpanded] = useState(false);
+  const [images, setImages] = useState<string[]>([]);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+
+  useEffect(() => {
+    if (narration?.landmark) {
+      const defaultImgs =
+        narration.landmark.images && narration.landmark.images.length > 0
+          ? narration.landmark.images
+          : [
+              'https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1200&q=80',
+              'https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1200&q=80',
+              'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80',
+            ];
+      setImages(defaultImgs);
+      setActiveImageIndex(0);
+    }
+  }, [narration?.landmark?.id]);
+
+  const handleGenerateAiImage = async () => {
+    if (!narration?.landmark) return;
+    setIsGeneratingImage(true);
+    try {
+      const res = await fetch('/api/tour/generate-image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          landmarkName: narration.landmark.name,
+          city: narration.historicalEra || 'Historic Monument',
+        }),
+      });
+      if (!res.ok) throw new Error('Failed to generate image');
+      const data = await res.json();
+      if (data.imageUrl) {
+        setImages((prev) => [data.imageUrl, ...prev]);
+        setActiveImageIndex(0);
+      }
+    } catch (err) {
+      console.error('Error generating AI landmark image:', err);
+      alert('Could not generate AI image at this moment. Please try again.');
+    } finally {
+      setIsGeneratingImage(false);
+    }
+  };
 
   if (!narration && !isLoading) return null;
 
@@ -293,6 +338,64 @@ export const NarrationDock: React.FC<NarrationDockProps> = ({
 
             {/* Modal Scrollable Body */}
             <div className="flex-1 overflow-y-auto space-y-5 py-5 pr-1">
+              {/* Landmark Image Gallery Section */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="text-xs uppercase font-bold tracking-wider text-slate-400 flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-amber-400" />
+                    <span>Thematic Photo Gallery & AI Generator</span>
+                  </h4>
+                  <button
+                    type="button"
+                    onClick={handleGenerateAiImage}
+                    disabled={isGeneratingImage}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-indigo-600 hover:from-amber-600 hover:to-indigo-700 text-white text-xs font-bold shadow transition-all cursor-pointer disabled:opacity-60"
+                  >
+                    {isGeneratingImage ? (
+                      <>
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        <span>Generating AI View...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-3.5 h-3.5" />
+                        <span>Generate AI Photo</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                {/* Main Active Photo Preview */}
+                <div className="relative w-full h-52 md:h-64 rounded-2xl overflow-hidden shadow-lg border border-slate-700 bg-slate-900">
+                  <img
+                    src={images[activeImageIndex] || images[0]}
+                    alt={narration.landmark.name}
+                    className="w-full h-full object-cover transition-all duration-300"
+                  />
+                  <div className="absolute bottom-2 right-2 px-2.5 py-1 rounded-lg bg-slate-950/80 backdrop-blur-md text-[10px] font-mono text-slate-200 border border-slate-700">
+                    Photo {activeImageIndex + 1} of {images.length}
+                  </div>
+                </div>
+
+                {/* Thumbnail Strip */}
+                {images.length > 1 && (
+                  <div className="flex items-center gap-2 mt-2.5 overflow-x-auto pb-1 scrollbar-none">
+                    {images.map((imgUrl, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => setActiveImageIndex(idx)}
+                        className={`relative w-16 h-12 rounded-xl overflow-hidden border-2 transition-all cursor-pointer shrink-0 ${
+                          activeImageIndex === idx ? 'border-amber-400 scale-105 shadow' : 'border-slate-700 opacity-70 hover:opacity-100'
+                        }`}
+                      >
+                        <img src={imgUrl} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               {/* Architectural Look Up Prompt */}
               {narration.suggestedLookAt && (
                 <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-indigo-950/40 border border-indigo-500/30 text-indigo-200">

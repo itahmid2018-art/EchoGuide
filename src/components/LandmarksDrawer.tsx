@@ -139,46 +139,69 @@ export const LandmarksDrawer: React.FC<LandmarksDrawerProps> = ({
           </button>
         </div>
 
-        {/* Tab Switcher: All Sights / Favorites / History */}
-        <div className="flex items-center gap-1 bg-slate-900/80 p-1 rounded-xl border border-slate-800 mt-3">
-          <button
-            type="button"
-            onClick={() => setActiveTab('all')}
-            className={`flex-1 py-1.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
-              activeTab === 'all'
-                ? 'bg-indigo-600 text-white shadow-sm'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            <Compass className="w-3.5 h-3.5" />
-            <span>All Sights</span>
-          </button>
+        {/* Tab Switcher & Favorites Only Toggle */}
+        <div className="space-y-2 mt-3">
+          <div className="flex items-center gap-1 bg-slate-900/80 p-1 rounded-xl border border-slate-800">
+            <button
+              type="button"
+              onClick={() => setActiveTab('all')}
+              className={`flex-1 py-1.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
+                activeTab === 'all'
+                  ? 'bg-indigo-600 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              <Compass className="w-3.5 h-3.5" />
+              <span>All Sights</span>
+            </button>
 
-          <button
-            type="button"
-            onClick={() => setActiveTab('favorites')}
-            className={`flex-1 py-1.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
-              activeTab === 'favorites'
-                ? 'bg-amber-500 text-slate-950 font-bold shadow-sm'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            <Star className="w-3.5 h-3.5 fill-current" />
-            <span>Favorites ({favorites.length})</span>
-          </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('favorites')}
+              className={`flex-1 py-1.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
+                activeTab === 'favorites'
+                  ? 'bg-amber-500 text-slate-950 font-bold shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              <Star className="w-3.5 h-3.5 fill-current" />
+              <span>Favorites ({favorites.length})</span>
+            </button>
 
-          <button
-            type="button"
-            onClick={() => setActiveTab('history')}
-            className={`flex-1 py-1.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
-              activeTab === 'history'
-                ? 'bg-emerald-600 text-white shadow-sm'
-                : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            <History className="w-3.5 h-3.5" />
-            <span>History ({historyItems.length})</span>
-          </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('history')}
+              className={`flex-1 py-1.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
+                activeTab === 'history'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              <History className="w-3.5 h-3.5" />
+              <span>History ({historyItems.length})</span>
+            </button>
+          </div>
+
+          {/* Explicit Show Favorites Only Toggle */}
+          <div className="flex items-center justify-between px-3 py-2 rounded-xl bg-amber-950/20 border border-amber-500/30 text-xs">
+            <div className="flex items-center gap-2 text-amber-300">
+              <Star className="w-3.5 h-3.5 fill-current text-amber-400" />
+              <span className="font-semibold">Show Bookmarked Favorites Only</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setActiveTab(activeTab === 'favorites' ? 'all' : 'favorites')}
+              className={`w-10 h-5 rounded-full transition-colors cursor-pointer relative p-0.5 ${
+                activeTab === 'favorites' ? 'bg-amber-500' : 'bg-slate-700'
+              }`}
+            >
+              <div
+                className={`w-4 h-4 rounded-full bg-white transition-transform ${
+                  activeTab === 'favorites' ? 'translate-x-5' : 'translate-x-0'
+                }`}
+              />
+            </button>
+          </div>
         </div>
 
         {activeTab !== 'history' ? (

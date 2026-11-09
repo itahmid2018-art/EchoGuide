@@ -448,6 +448,38 @@ export interface GeocodeLocationResult {
 }
 
 export async function geocodeLocation(query: string): Promise<GeocodeLocationResult | null> {
+  // 1. Try Wikipedia API first for rich historical and geographic coverage across India and worldwide
+  try {
+    const wikiSearchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&origin=*`;
+    const searchRes = await fetch(wikiSearchUrl, { signal: AbortSignal.timeout(4000) });
+    const searchData = await searchRes.json();
+    if (searchData.query?.search && searchData.query.search.length > 0) {
+      const topTitle = searchData.query.search[0].title;
+      // Fetch coordinates and extract for top title
+      const detailUrl = `https://en.wikipedia.org/w/api.php?action=query&prop=coordinates|extracts&exintro&explaintext&titles=${encodeURIComponent(topTitle)}&format=json&origin=*`;
+      const detailRes = await fetch(detailUrl, { signal: AbortSignal.timeout(4000) });
+      const detailData = await detailRes.json();
+      const pages = detailData.query?.pages;
+      if (pages) {
+        const pageId = Object.keys(pages)[0];
+        const page = pages[pageId];
+        if (page && page.coordinates && page.coordinates.length > 0) {
+          const coord = page.coordinates[0];
+          return {
+            name: topTitle,
+            formattedAddress: `${topTitle}, India / World`,
+            lat: coord.lat,
+            lng: coord.lon,
+            cityName: topTitle,
+          };
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('Wikipedia geocode lookup warning:', e);
+  }
+
+  // 2. Try Google Maps Geocode API if key is available
   const mapsKey = process.env.VITE_GOOGLE_MAPS_API_KEY || process.env.GOOGLE_MAPS_API_KEY;
   if (mapsKey) {
     try {
@@ -470,9 +502,9 @@ export async function geocodeLocation(query: string): Promise<GeocodeLocationRes
     }
   }
 
-  // Fallback to Gemini Geocoding with gemini-2.5-flash
+  // 3. Fallback to Gemini Geocoding with gemini-2.5-flash
   try {
-    const prompt = `Identify the exact latitude and longitude coordinates for this place/location or address: "${query}".
+    const prompt = `Identify the exact latitude and longitude coordinates for this place/location or address across India or worldwide: "${query}".
 Respond strictly with valid JSON conforming to:
 {
   "name": "Short recognizable place name",
@@ -500,4 +532,37 @@ Respond strictly with valid JSON conforming to:
 
   return null;
 }
+
+export async function generateLandmarkImage(landmarkName: string, city: string): Promise<string> {
+  try {
+    const response = await ai.models.generateImages({
+      model: 'imagen-3.0-generate-002',
+      prompt: `Cinematic architectural travel photography of ${landmarkName} in ${city}, golden hour lighting, 8k resolution, highly detailed historic monument facade`,
+      config: {
+        numberOfImages: 1,
+        outputMimeType: 'image/jpeg',
+        aspectRatio: '16:9',
+      },
+    });
+    const base64 = response.generatedImages?.[0]?.image?.imageBytes;
+    if (base64) {
+      return `data:image/jpeg;base64,${base64}`;
+    }
+  } catch (e) {
+    console.warn('Imagen generation fallback:', e);
+  }
+
+  // Fallback high-res Unsplash photo URL based on query
+  const seed = Math.abs(landmarkName.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)) % 10;
+  const unsplashIds = [
+    '1564507592333-c60657eea523',
+    '1524492412937-b28074a5d7da',
+    '1598439210625-5067c578f3f6',
+    '1548013146-72479768bada',
+    '1582510003544-4d00b7f74220',
+    '1512453979798-5ea266f8880c',
+  ];
+  return `https://images.unsplash.com/photo-${unsplashIds[seed % unsplashIds.length]}?auto=format&fit=crop&w=1200&q=80`;
+}
+
 

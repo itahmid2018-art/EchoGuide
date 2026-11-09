@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import { defineConfig, Plugin } from 'vite';
 import dotenv from 'dotenv';
-import { generateTourNarration, discoverNearbyLandmarks, askTourGuide, optimizeTourRoute, geocodeLocation, fetchRealTimeWeather } from './src/server/geminiTourService.ts';
+import { generateTourNarration, discoverNearbyLandmarks, askTourGuide, optimizeTourRoute, geocodeLocation, fetchRealTimeWeather, generateLandmarkImage } from './src/server/geminiTourService.ts';
 
 dotenv.config();
 
@@ -37,6 +37,13 @@ function tourApiPlugin(): Plugin {
         res.setHeader('Content-Type', 'application/json');
 
         try {
+          if (req.url === '/api/tour/generate-image' && req.method === 'POST') {
+            const body = await readBody();
+            const imageUrl = await generateLandmarkImage(body.landmarkName, body.city || 'historic city');
+            res.statusCode = 200;
+            res.end(JSON.stringify({ imageUrl }));
+            return;
+          }
           if (req.url.startsWith('/api/tour/weather') && req.method === 'GET') {
             const urlObj = new URL(req.url, 'http://localhost');
             const lat = parseFloat(urlObj.searchParams.get('lat') || '');

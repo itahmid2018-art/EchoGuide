@@ -1,7 +1,7 @@
 import express from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
-import { generateTourNarration, discoverNearbyLandmarks, askTourGuide, optimizeTourRoute, geocodeLocation, fetchRealTimeWeather } from './src/server/geminiTourService.ts';
+import { generateTourNarration, discoverNearbyLandmarks, askTourGuide, optimizeTourRoute, geocodeLocation, fetchRealTimeWeather, generateLandmarkImage } from './src/server/geminiTourService.ts';
 
 dotenv.config();
 
@@ -9,6 +9,21 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+
+// API endpoints
+app.post('/api/tour/generate-image', async (req, res) => {
+  try {
+    const { landmarkName, city } = req.body;
+    if (!landmarkName) {
+      return res.status(400).json({ error: 'landmarkName is required' });
+    }
+    const imageUrl = await generateLandmarkImage(landmarkName, city || 'historic city');
+    res.json({ imageUrl });
+  } catch (err: any) {
+    console.error('Generate image error:', err);
+    res.status(500).json({ error: err?.message || 'Failed to generate image' });
+  }
+});
 
 // API endpoints
 app.get('/api/tour/weather', async (req, res) => {

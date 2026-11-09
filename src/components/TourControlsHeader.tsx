@@ -10,6 +10,7 @@ import {
   UserPosition,
 } from '../types/tour';
 import { ThemeMode } from '../utils/themeUtils';
+import { getDistanceMeters, formatDistance } from '../utils/geoUtils';
 import { CITY_PRESETS } from '../data/cityPresets';
 import {
   Compass,
@@ -172,14 +173,26 @@ export const TourControlsHeader: React.FC<TourControlsHeaderProps> = ({
     return formatCoordinates(userLocation.lat, userLocation.lng);
   }, [userLocation.lat, userLocation.lng]);
 
-  // Filtered landmarks in current city matching query
+  // Filtered and nearest landmarks sorted by proximity to user location
   const matchingLandmarks = useMemo(() => {
-    if (!searchQuery.trim()) return [];
+    const landmarksWithDist = currentCity.landmarks.map((lm) => ({
+      ...lm,
+      distance: getDistanceMeters(userLocation.lat, userLocation.lng, lm.lat, lm.lng),
+    })).sort((a, b) => a.distance - b.distance);
+
+    if (!searchQuery.trim()) {
+      return landmarksWithDist.slice(0, 5); // Show 5 nearest locations by default
+    }
     const q = searchQuery.toLowerCase();
-    return currentCity.landmarks
-      .filter((lm) => lm.name.toLowerCase().includes(q))
-      .slice(0, 4);
-  }, [searchQuery, currentCity.landmarks]);
+    return landmarksWithDist
+      .filter(
+        (lm) =>
+          lm.name.toLowerCase().includes(q) ||
+          lm.shortDescription.toLowerCase().includes(q) ||
+          (lm.historicalEra && lm.historicalEra.toLowerCase().includes(q))
+      )
+      .slice(0, 6);
+  }, [searchQuery, currentCity.landmarks, userLocation.lat, userLocation.lng]);
 
   // Filtered preset cities matching query
   const matchingCities = useMemo(() => {
@@ -258,7 +271,7 @@ export const TourControlsHeader: React.FC<TourControlsHeaderProps> = ({
 
   return (
     <>
-      <header className="relative z-30 px-2.5 pt-2.5 md:px-4 md:pt-4">
+      <header className="sticky top-0 z-45 px-2.5 pt-2.5 md:px-4 md:pt-4 backdrop-blur-md pb-1">
         <div
           className={`glass-panel rounded-2xl md:rounded-3xl shadow-xl px-3 py-2.5 md:px-4 md:py-3 border max-w-7xl mx-auto flex items-center justify-between gap-2.5 md:gap-4 transition-colors duration-300 ${
             isDark ? 'border-slate-700/60' : 'border-slate-200/90 shadow-slate-300/40'
@@ -432,11 +445,11 @@ export const TourControlsHeader: React.FC<TourControlsHeaderProps> = ({
                   </button>
                 </div>
 
-                {/* Matching Landmarks in Current City */}
+                {/* Matching & Nearest Landmarks in Current City */}
                 {matchingLandmarks.length > 0 && (
                   <div className="py-2 border-b border-slate-800/60">
                     <p className="px-2 py-1 text-[10px] uppercase font-bold tracking-wider text-slate-400">
-                      Sights in {currentCity.name}
+                      Nearest Locations & Sights in {currentCity.name}
                     </p>
                     {matchingLandmarks.map((lm) => (
                       <button
@@ -455,9 +468,14 @@ export const TourControlsHeader: React.FC<TourControlsHeaderProps> = ({
                           <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
                           <span className="font-semibold truncate">{lm.name}</span>
                         </div>
-                        <span className="text-[10px] font-mono text-slate-400 shrink-0">
-                          {formatCoordinates(lm.lat, lm.lng)}
-                        </span>
+                        <div className="flex items-center gap-2 shrink-0">
+                          <span className="text-[10px] font-semibold text-indigo-400 bg-indigo-500/15 px-1.5 py-0.5 rounded">
+                            {formatDistance(lm.distance)} away
+                          </span>
+                          <span className="text-[10px] font-mono text-slate-400 hidden sm:inline">
+                            {formatCoordinates(lm.lat, lm.lng)}
+                          </span>
+                        </div>
                       </button>
                     ))}
                   </div>

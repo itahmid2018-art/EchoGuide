@@ -540,12 +540,28 @@ export default function App() {
     (lat: number, lng: number, placeName?: string) => {
       handleUpdateLocation(lat, lng);
       const matched = landmarks.find(
-        (l) => Math.abs(l.lat - lat) < 0.0008 && Math.abs(l.lng - lng) < 0.0008
+        (l) => Math.abs(l.lat - lat) < 0.001 && Math.abs(l.lng - lng) < 0.001
       );
       if (matched) {
         setSelectedLandmarkId(matched.id);
         if (autoNarration) {
           triggerNarrationForLandmark(matched);
+        }
+      } else if (placeName) {
+        const newLm: Landmark = {
+          id: `searched_${Date.now()}`,
+          name: placeName,
+          category: 'monument',
+          lat,
+          lng,
+          shortDescription: `Searched location: ${placeName}. Explore historical details, architecture, and local culture.`,
+          historicalEra: 'Historic & Cultural Site',
+          visited: true,
+        };
+        setLandmarks((prev) => [newLm, ...prev]);
+        setSelectedLandmarkId(newLm.id);
+        if (autoNarration) {
+          triggerNarrationForLandmark(newLm);
         }
       } else {
         setSelectedLandmarkId(null);
