@@ -23,6 +23,8 @@ import { NarrationDock } from './components/NarrationDock';
 import { LandmarksDrawer } from './components/LandmarksDrawer';
 import { VoiceQAWidget } from './components/VoiceQAWidget';
 import { RouteOptimizerModal } from './components/RouteOptimizerModal';
+import { StreetViewVRModal } from './components/StreetViewVRModal';
+import { ConnectivityMonitor } from './components/ConnectivityMonitor';
 import { getTimeOfDayInfo, ThemeMode, TimeOfDayInfo } from './utils/themeUtils';
 
 export default function App() {
@@ -106,6 +108,7 @@ export default function App() {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isRouteOptimizerOpen, setIsRouteOptimizerOpen] = useState<boolean>(false);
   const [isDiscovering, setIsDiscovering] = useState<boolean>(false);
+  const [streetViewLandmark, setStreetViewLandmark] = useState<Landmark | null>(null);
 
   // Switch City
   const handleSelectCity = (newCity: CityPreset) => {
@@ -579,6 +582,9 @@ export default function App() {
       {/* Quota Defense Banner mandated by Google Maps Platform guidelines */}
       <QuotaBanner />
 
+      {/* Persistent Connectivity Monitor for Offline Toast Notifications */}
+      <ConnectivityMonitor isDark={isDark} />
+
       {/* Top Header with Location Search & Top-Right Hamburger Menu */}
       <TourControlsHeader
         currentCity={currentCity}
@@ -630,6 +636,13 @@ export default function App() {
         landmarkCount={landmarks.length}
         visitedCount={visitedCount}
         onOpenLandmarksDrawer={() => setIsDrawerOpen(true)}
+        onOpenStreetView={() => {
+          const target =
+            landmarks.find((l) => l.id === selectedLandmarkId) ||
+            landmarks.find((l) => l.id === nearbyInRangeId) ||
+            landmarks[0];
+          if (target) setStreetViewLandmark(target);
+        }}
       />
 
       {/* Google Map enclosed within a rounded edge rectangle matching the header */}
@@ -657,6 +670,9 @@ export default function App() {
             }}
             onNarrateLandmark={(lm) => {
               triggerNarrationForLandmark(lm);
+            }}
+            onOpenStreetView={(lm) => {
+              setStreetViewLandmark(lm);
             }}
             onMapClickPosition={(lat, lng) => {
               handleUpdateLocation(lat, lng);
@@ -702,6 +718,7 @@ export default function App() {
             triggerNarrationForLandmark(activeNarration.landmark, p);
           }
         }}
+        onOpenStreetView={(lm) => setStreetViewLandmark(lm)}
       />
 
       {/* Slide-over Sights & Landmarks Drawer (with Favorites & History) */}
@@ -725,6 +742,7 @@ export default function App() {
           handleUpdateLocation(lm.lat, lm.lng);
           setIsDrawerOpen(false);
         }}
+        onOpenStreetView={(lm) => setStreetViewLandmark(lm)}
         onDiscoverMore={handleDiscoverMore}
         isDiscovering={isDiscovering}
         activeCategory={selectedCategory}
@@ -755,6 +773,16 @@ export default function App() {
         landmarks={landmarks}
         onApplyOptimizedRoute={handleApplyOptimizedRoute}
       />
+
+      {/* Street View & VR 360 Modal */}
+      {streetViewLandmark && (
+        <StreetViewVRModal
+          landmark={streetViewLandmark}
+          apiKey={apiKey}
+          isDark={isDark}
+          onClose={() => setStreetViewLandmark(null)}
+        />
+      )}
     </div>
   );
 }

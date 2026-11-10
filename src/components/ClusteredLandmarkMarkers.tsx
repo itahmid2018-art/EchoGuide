@@ -12,6 +12,8 @@ import {
   CheckCircle2,
   Volume2,
   Sparkles,
+  Eye,
+  Glasses,
 } from 'lucide-react';
 
 interface ClusteredLandmarkMarkersProps {
@@ -21,6 +23,7 @@ interface ClusteredLandmarkMarkersProps {
   nearbyInRangeId: string | null;
   onSelectLandmark: (landmark: Landmark) => void;
   onNarrateLandmark: (landmark: Landmark) => void;
+  onOpenStreetView?: (landmark: Landmark) => void;
 }
 
 const getCategoryIcon = (category: LandmarkCategory) => {
@@ -172,6 +175,7 @@ export const ClusteredLandmarkMarkers: React.FC<ClusteredLandmarkMarkersProps> =
   nearbyInRangeId,
   onSelectLandmark,
   onNarrateLandmark,
+  onOpenStreetView,
 }) => {
   const map = useMap();
   const markersRef = useRef<Record<string, google.maps.marker.AdvancedMarkerElement>>({});
@@ -271,7 +275,7 @@ export const ClusteredLandmarkMarkers: React.FC<ClusteredLandmarkMarkersProps> =
           pixelOffset={[0, -32]}
           onCloseClick={() => onSelectLandmark(null as any)}
         >
-          <div className="p-1 max-w-[280px] text-slate-900 font-sans">
+          <div className="p-1 max-w-[290px] text-slate-900 font-sans">
             <div className="flex items-start justify-between gap-2">
               <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-slate-100 text-slate-600">
                 {selectedLandmark.category}
@@ -298,15 +302,27 @@ export const ClusteredLandmarkMarkers: React.FC<ClusteredLandmarkMarkersProps> =
               </div>
             )}
 
-            <div className="mt-3 flex items-center justify-between gap-2">
+            <div className="mt-3 flex items-center gap-1.5">
               <button
                 type="button"
                 onClick={() => onNarrateLandmark(selectedLandmark)}
-                className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-xs shadow-sm transition-colors cursor-pointer"
+                className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-[11px] shadow-sm transition-colors cursor-pointer"
               >
-                <Volume2 className="w-3.5 h-3.5" />
-                <span>Play AI Audio Guide</span>
+                <Volume2 className="w-3 h-3" />
+                <span>Audio Guide</span>
               </button>
+
+              {onOpenStreetView && (
+                <button
+                  type="button"
+                  onClick={() => onOpenStreetView(selectedLandmark)}
+                  className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 rounded-lg bg-gradient-to-r from-rose-600 to-indigo-600 hover:from-rose-700 hover:to-indigo-700 text-white font-semibold text-[11px] shadow-sm transition-all cursor-pointer"
+                  title="Open 360° Google Street View & VR Cardboard mode"
+                >
+                  <Glasses className="w-3 h-3" />
+                  <span>Street View & VR</span>
+                </button>
+              )}
             </div>
           </div>
         </InfoWindow>

@@ -22,6 +22,7 @@ import {
   Star,
   History,
   RotateCcw,
+  Eye,
 } from 'lucide-react';
 
 interface LandmarksDrawerProps {
@@ -35,6 +36,7 @@ interface LandmarksDrawerProps {
   onSelectLandmark: (landmark: Landmark) => void;
   onNarrateLandmark: (landmark: Landmark) => void;
   onTeleportToLandmark: (landmark: Landmark) => void;
+  onOpenStreetView: (landmark: Landmark) => void;
   onDiscoverMore: () => void;
   isDiscovering: boolean;
   activeCategory: TourCategoryFilter;
@@ -52,6 +54,7 @@ export const LandmarksDrawer: React.FC<LandmarksDrawerProps> = ({
   onSelectLandmark,
   onNarrateLandmark,
   onTeleportToLandmark,
+  onOpenStreetView,
   onDiscoverMore,
   isDiscovering,
   activeCategory,
@@ -336,6 +339,19 @@ export const LandmarksDrawer: React.FC<LandmarksDrawerProps> = ({
                           title="Move user location here"
                         >
                           Walk Here
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onOpenStreetView(landmark);
+                          }}
+                          className="p-1.5 rounded-lg bg-rose-600/20 hover:bg-rose-600/30 text-rose-300 border border-rose-500/30 text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1"
+                          title="Open Google Street View & VR 360"
+                        >
+                          <Eye className="w-3.5 h-3.5" />
+                          <span className="hidden sm:inline">360°</span>
                         </button>
 
                         <button

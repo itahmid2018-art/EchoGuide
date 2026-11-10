@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ActiveNarration, GuidePersona } from '../types/tour';
+import { ActiveNarration, GuidePersona, Landmark } from '../types/tour';
 import {
   Play,
   Pause,
@@ -29,6 +29,7 @@ interface NarrationDockProps {
   onStop: () => void;
   onReplay: () => void;
   onPersonaChange: (persona: GuidePersona) => void;
+  onOpenStreetView: (landmark: Landmark) => void;
 }
 
 export const NarrationDock: React.FC<NarrationDockProps> = ({
@@ -43,6 +44,7 @@ export const NarrationDock: React.FC<NarrationDockProps> = ({
   onStop,
   onReplay,
   onPersonaChange,
+  onOpenStreetView,
 }) => {
   const [expanded, setExpanded] = useState(false);
   const [images, setImages] = useState<string[]>([]);
@@ -273,6 +275,16 @@ export const NarrationDock: React.FC<NarrationDockProps> = ({
                   >
                     <RotateCcw className="w-3.5 h-3.5" />
                   </button>
+
+                  <button
+                    type="button"
+                    onClick={() => onOpenStreetView(narration.landmark)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-rose-600 to-indigo-600 hover:from-rose-700 hover:to-indigo-700 text-white font-bold text-xs shadow transition-all cursor-pointer"
+                    title="Open Google Street View & VR 360"
+                  >
+                    <Eye className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">Street View & VR</span>
+                  </button>
                 </div>
 
                 {/* Persona Switcher Buttons */}
@@ -502,6 +514,15 @@ export const NarrationDock: React.FC<NarrationDockProps> = ({
                   title="Replay from beginning"
                 >
                   <RotateCcw className="w-4 h-4" />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => onOpenStreetView(narration.landmark)}
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-rose-600 to-indigo-600 hover:from-rose-700 hover:to-indigo-700 text-white font-bold text-xs shadow transition-all cursor-pointer"
+                >
+                  <Eye className="w-4 h-4" />
+                  <span>Street View & VR 360°</span>
                 </button>
               </div>
 

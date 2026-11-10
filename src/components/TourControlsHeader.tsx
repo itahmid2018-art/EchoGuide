@@ -35,9 +35,10 @@ import {
   Sun,
   Moon,
   Clock,
-  Check,
   Globe,
   Loader2,
+  Glasses,
+  Eye,
 } from 'lucide-react';
 
 export const LANGUAGES: LanguageOption[] = [
@@ -97,6 +98,7 @@ interface TourControlsHeaderProps {
   landmarkCount: number;
   visitedCount: number;
   onOpenLandmarksDrawer: () => void;
+  onOpenStreetView?: () => void;
 }
 
 export const TourControlsHeader: React.FC<TourControlsHeaderProps> = ({
@@ -135,6 +137,7 @@ export const TourControlsHeader: React.FC<TourControlsHeaderProps> = ({
   landmarkCount,
   visitedCount,
   onOpenLandmarksDrawer,
+  onOpenStreetView,
 }) => {
   // Hamburger menu open state
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -548,8 +551,22 @@ export const TourControlsHeader: React.FC<TourControlsHeaderProps> = ({
             )}
           </div>
 
-          {/* Right: Hamburger Menu Button */}
+          {/* Right: Hamburger Menu & Quick Feature Buttons */}
           <div className="flex items-center gap-2 shrink-0">
+            {/* Quick 360 Street View & VR Launch Button */}
+            {onOpenStreetView && (
+              <button
+                type="button"
+                onClick={onOpenStreetView}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-rose-600 via-indigo-600 to-purple-600 hover:from-rose-700 hover:to-indigo-700 text-white text-xs font-bold shadow-md transition-all cursor-pointer"
+                title="Open 360° Google Street View & VR Mode"
+              >
+                <Glasses className="w-4 h-4 text-amber-300" />
+                <span className="hidden sm:inline">360° Street View & VR</span>
+                <span className="sm:hidden font-bold">VR</span>
+              </button>
+            )}
+
             {/* Quick Sights Drawer trigger icon */}
             <button
               type="button"
@@ -973,6 +990,25 @@ export const TourControlsHeader: React.FC<TourControlsHeaderProps> = ({
                   <span>Tour Planning Tools</span>
                 </h3>
                 <div className="space-y-2">
+                  {onOpenStreetView && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        onOpenStreetView();
+                      }}
+                      className="w-full flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-rose-600 via-indigo-600 to-purple-600 hover:from-rose-700 hover:to-indigo-700 text-white text-xs font-bold shadow-lg transition-colors cursor-pointer"
+                    >
+                      <div className="flex items-center gap-2">
+                        <Glasses className="w-4 h-4 text-amber-300" />
+                        <span>360° Street View & VR Exploration</span>
+                      </div>
+                      <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full font-bold">
+                        Launch VR
+                      </span>
+                    </button>
+                  )}
+
                   <button
                     type="button"
                     onClick={() => {
